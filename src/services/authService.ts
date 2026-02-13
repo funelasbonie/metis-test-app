@@ -1,11 +1,10 @@
 // src/services/authService.ts
-import { UserManager, WebStorageStateStore, User, SigninResponse } from 'oidc-client-ts';
+import { UserManager, WebStorageStateStore, User } from 'oidc-client-ts';
 import { authConfig } from '../config/auth';
 
 class AuthService {
     private userManager: UserManager;
     private user: User | null = null;
-    private isInitializing: boolean = false;
     private initPromise: Promise<void> | null = null;
 
     constructor() {
@@ -98,8 +97,6 @@ class AuthService {
             } catch (error) {
                 console.error('Auth initialization failed:', error);
                 reject(error);
-            } finally {
-                this.isInitializing = false;
             }
         });
 
