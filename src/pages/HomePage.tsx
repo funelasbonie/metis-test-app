@@ -1,4 +1,4 @@
-﻿// src/pages/HomePage.tsx
+// src/pages/HomePage.tsx
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { apiService } from '../services/api';
@@ -148,26 +148,29 @@ const HomePage: React.FC = () => {
                     )}
                 </div>
 
-                <div className="sso-info">
-                    <h2>SSO Information</h2>
-                    <p>
-                        This app was opened from your .NET application using Single Sign-On.
-                        The authentication happened automatically because you were already logged in.
-                    </p>
-                    <div className="window-info">
+                {user && (
+                    <div className="sso-info">
+                        <h2>SSO Information</h2>
                         <p>
-                            <strong>Window Status:</strong> {window.opener ? 'Opened from .NET app' : 'Independent window'}
+                            {window.opener
+                                ? 'This app was opened from your .NET application using Single Sign-On. The authentication happened automatically because you were already logged in.'
+                                : 'You are signed in. If you open this app from your .NET application, SSO can sign you in automatically.'}
                         </p>
-                        {window.opener && (
-                            <button
-                                onClick={() => window.opener?.postMessage({ type: 'PING' }, '*')}
-                                className="test-button"
-                            >
-                                Test .NET App Connection
-                            </button>
-                        )}
+                        <div className="window-info">
+                            <p>
+                                <strong>Window Status:</strong> {window.opener ? 'Opened from .NET app' : 'Independent window'}
+                            </p>
+                            {window.opener && (
+                                <button
+                                    onClick={() => window.opener?.postMessage({ type: 'PING' }, '*')}
+                                    className="test-button"
+                                >
+                                    Test .NET App Connection
+                                </button>
+                            )}
+                        </div>
                     </div>
-                </div>
+                )}
             </main>
         </div>
     );
